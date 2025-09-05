@@ -121,7 +121,7 @@ while True:
             else:
                 response = random.choice(responses)
                 if "{name}" in response:
-                    response = response.replace("{name}", memory.get("name", "friend"))
+                    response = response.replace("{name}", str(memory.get("name", "friend") or "friend"))
                 if "{1}" in response and match.lastindex:
                     response = response.replace("{1}", match.group(1))
                 print("Chatbot:", response)
