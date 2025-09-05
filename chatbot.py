@@ -2,37 +2,42 @@ import datetime
 import re
 import random
 
-# Predefined rules
 rules = {
     r"\b(hello|hi|hey)\b": [
         "Hello {name}! How can I help you today?",
-        "Hey {name}! What’s up?",
+        "Hey {name}! What's up?",
         "Hi 👋 How are you doing, {name}?"
+        "kya haal hai {name}?"
     ],
     r"\bgood (morning|afternoon|evening|night)\b": [
         "Good {1}, {name}! 🌞",
         "Wishing you a wonderful {1}, {name}!",
         "Good {1}! Hope your day is going well, {name}."
+        "shubh {1}, {name}!"
     ],
     r"\bhow are you\b": [
         "I'm just a bot, but I'm doing great!",
         "Doing awesome 😎 Thanks for asking, {name}!",
-        "I’m fine, what about you {name}?"
+        "I'm fine, what about you {name}?"
+        "mai theek hu, tum batao {name}?"
     ],
     r"\bi am fine\b|\bi'm fine\b|\bi am good\b": [
         "Glad to hear that, {name}! 😊",
         "Awesome! Keep smiling, {name}! 🌸",
-        "That’s great, {name}! 😄"
+        "That's great, {name}! 😄"
+        "yeh sunke acha laga {name}!"
     ],
     r"\bthank you\b|\bthanks\b": [
         "You're welcome, {name}! 🙌",
         "Anytime, {name}! 😇",
         "No problem at all, {name}! 👍"
+        "koi baat nahi {name}!"
     ],
     r"\b(your name|who are you)\b": [
         "I'm a simple rule-based chatbot 🤖.",
         "They call me ChatBot, nice to meet you {name}!",
         "Just your friendly chatbot here to chat 😄"
+        "mai ek chatbot hu, tumse milke khushi hui {name}!"
     ],
     r"\btime\b": ["TIME_RESPONSE"],
     r"\bdate\b": ["DATE_RESPONSE"],
@@ -40,15 +45,19 @@ rules = {
         "It’s always sunny in my world ☀️",
         "I’m not connected to the internet, but I’d say it’s chatbot weather 🌤️",
         "Weather update: 100% chance of chatting 😄"
+        "mera to hamesha acha mausam rehta hai ☀️"
     ],
     r"\bjoke\b": [
         "Why don’t robots ever get tired, {name}? Because they recharge! ⚡",
         "What’s a chatbot’s favorite drink, {name}? Java ☕",
         "Why was the computer cold? Because it left its Windows open 😂"
+        "ek joke suno {name}: Computer thanda kyu tha? Kyunki usne apni Windows khol di thi 😂"
+        "ek joke suno {name}: Robot thak kyu nahi jata? Kyunki wo recharge kar leta hai! ⚡"
     ],
     r"\bhelp\b": [
         "You can ask me about time, date, weather, or even for a joke, {name}!",
         "Try saying 'hello', 'what’s the time', 'tell me a joke', or 'bye'."
+        "mujhse tum time, date, weather ke baare me puch sakte ho, ya ek joke bhi sun sakte ho {name}!"
     ],
     # Fixed memory patterns
     r"\bmy name is (.*)\b": ["REMEMBER_NAME"],
@@ -144,6 +153,9 @@ while True:
         fallback = [
             "I'm not sure I understand 🤔.",
             "Can you rephrase that?",
-            "Sorry, I don’t know how to answer that yet."
+            "Sorry, I don’t know how to answer that yet.",
+            "mujhe samajh nahi aaya 🤔.",
+            "kya tum ise alag tareeke se keh sakte ho?",
+            "maaf kardo, mai is sawal ka jawab nahi de sakta."
         ]
         print("Chatbot:", random.choice(fallback))
