@@ -39,6 +39,29 @@ rules = {
         "Just your friendly chatbot here to chat 😄"
         "mai ek chatbot hu, tumse milke khushi hui {name}!"
     ],
+    r"\bbye\b|\bgoodbye\b|\bsee you\b": [
+        "Goodbye {name}! Have a great day! 👋",
+    ],
+    r"\bwhat can you do\b": [
+        "I can chat with you, tell jokes, and remember things about you, {name}!",
+        "I can help you with simple tasks and keep you company, {name}!"
+        "mai tumse baat kar sakta hu, jokes suna sakta hu, aur tumhare baare me kuch yaad bhi rakh sakta hu {name}!"
+    ],
+    r"\bwho created you\b": [
+        "I was created by a team of sakshi siwal who love AI! 🤖"
+    ],
+    r"\bwhat is your purpose\b": [
+        "My purpose is to chat and assist you, {name}!",
+        "I'm here to make your day a little brighter with some conversation, {name}!"
+        "mera maksad tumse baat karna aur tumhari madad karna hai {name}!"
+    ],
+    r"\bnice to meet you\b": [
+        "Nice to meet you too, {name}! 😊",
+        "The pleasure is mine, {name}! 😄",
+        "Great meeting you, {name}! 👋",
+        "tumse milke acha laga {name}!"
+    ],
+
     r"\btime\b": ["TIME_RESPONSE"],
     r"\bdate\b": ["DATE_RESPONSE"],
     r"\bweather\b": [
