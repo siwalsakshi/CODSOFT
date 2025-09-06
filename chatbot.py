@@ -39,9 +39,6 @@ rules = {
         "Just your friendly chatbot here to chat 😄"
         "mai ek chatbot hu, tumse milke khushi hui {name}!"
     ],
-    r"\bbye\b|\bgoodbye\b|\bsee you\b": [
-        "Goodbye {name}! Have a great day! 👋",
-    ],
     r"\bwhat can you do\b": [
         "I can chat with you, tell jokes, and remember things about you, {name}!",
         "I can help you with simple tasks and keep you company, {name}!"
