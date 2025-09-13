@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tic-Tac-Toe AI (Unbeatable)</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f4f4f9;
+      font-family: Arial, sans-serif;
+    }
+    #game {
+      text-align: center;
+    }
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-template-rows: repeat(3, 100px);
+      gap: 5px;
+      margin: 20px auto;
+    }
+    .cell {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: white;
+      border: 2px solid #333;
+      font-size: 2em;
+      cursor: pointer;
+      user-select: none;
+    }
+    .cell.taken {
+      cursor: not-allowed;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="game">
+    <h2>Tic-Tac-Toe (Unbeatable AI)</h2>
+    <p>You are <span id="human-symbol">X</span>. Click a cell to play.</p>
+    <div class="board" id="board"></div>
+    <p id="status"></p>
+    <button onclick="resetGame()">Restart</button>
+  </div>
+
+  <script>
+    const EMPTY = "";
+    let board;
+    let human = "X";
+    let ai = "O";
+    let gameOver;
+
+    function initBoard() {
+      board = Array(9).fill(EMPTY);
+      gameOver = false;
+      render();
+    }
+
+    function render() {
+      const boardEl = document.getElementById("board");
+      boardEl.innerHTML = "";
+      board.forEach((cell, i) => {
+        const div = document.createElement("div");
+        div.className = "cell" + (cell !== EMPTY ? " taken" : "");
+        div.textContent = cell;
+        div.onclick = () => humanMove(i);
+        boardEl.appendChild(div);
+      });
+    }
+
+    function humanMove(idx) {
+      if (gameOver || board[idx] !== EMPTY) return;
+      board[idx] = human;
+      if (checkWinner(board) || isFull(board)) {
+        endGame();
+        return;
+      }
+      // AI move
+      const move = bestMove();
+      board[move] = ai;
+      endGame();
+      render();
+    }
+
+    function endGame() {
+      const winner = checkWinner(board);
+      const status = document.getElementById("status");
+      if (winner) {
+        gameOver = true;
+        status.textContent = winner === human ? "You win! 🎉" : "AI wins!";
+      } else if (isFull(board)) {
+        gameOver = true;
+        status.textContent = "It's a draw.";
+      } else {
+        status.textContent = "";
+      }
+      render();
+    }
+
+    function availableMoves(b) {
+      return b.map((v, i) => v === EMPTY ? i : null).filter(v => v !== null);
+    }
+
+    function isFull(b) {
+      return b.every(c => c !== EMPTY);
+    }
+
+    function checkWinner(b) {
+      const lines = [
+        [0,1,2], [3,4,5], [6,7,8],
+        [0,3,6], [1,4,7], [2,5,8],
+        [0,4,8], [2,4,6]
+      ];
+      for (const [a,b1,c] of lines) {
+        if (b[a] && b[a] === b[b1] && b[a] === b[c]) return b[a];
+      }
+      return null;
+    }
+
+    function minimax(b, depth, alpha, beta, maximizing) {
+      const winner = checkWinner(b);
+      if (winner === ai) return {score: 10 - depth};
+      if (winner === human) return {score: depth - 10};
+      if (isFull(b)) return {score: 0};
+
+      if (maximizing) {
+        let maxEval = -Infinity;
+        let bestMove;
+        for (const move of availableMoves(b)) {
+          b[move] = ai;
+          const eval = minimax(b, depth+1, alpha, beta, false).score;
+          b[move] = EMPTY;
+          if (eval > maxEval) {
+            maxEval = eval;
+            bestMove = move;
+          }
+          alpha = Math.max(alpha, eval);
+          if (beta <= alpha) break;
+        }
+        return {score: maxEval, move: bestMove};
+      } else {
+        let minEval = Infinity;
+        let bestMove;
+        for (const move of availableMoves(b)) {
+          b[move] = human;
+          const eval = minimax(b, depth+1, alpha, beta, true).score;
+          b[move] = EMPTY;
+          if (eval < minEval) {
+            minEval = eval;
+            bestMove = move;
+          }
+          beta = Math.min(beta, eval);
+          if (beta <= alpha) break;
+        }
+        return {score: minEval, move: bestMove};
+      }
+    }
+
+    function bestMove() {
+      if (availableMoves(board).length === 9) return 4; // pick center
+      return minimax(board, 0, -Infinity, Infinity, true).move;
+    }
+
+    function resetGame() {
+      initBoard();
+      document.getElementById("status").textContent = "";
+    }
+
+    initBoard();
+  </script>
+</body>
+</html>
